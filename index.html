@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FnK Cafe - Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFDFB;
+        }
+        .veg-indicator::before {
+            content: '●';
+            color: #22c55e; /* green-500 */
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+            vertical-align: middle;
+        }
+        .non-veg-indicator::before {
+            content: '●';
+            color: #ef4444; /* red-500 */
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+            vertical-align: middle;
+        }
+        .egg-indicator::before {
+            content: '●';
+            color: #f59e0b; /* amber-500 */
+            margin-right: 0.5rem;
+            font-size: 1.25rem;
+            vertical-align: middle;
+        }
+        .category-title {
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        .search-bar:focus, .sort-select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #333;
+        }
+        .filter-btn.active {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+        .modal-overlay {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto max-w-2xl p-4 md:p-6">
+
+        <!-- Header -->
+        <header class="text-center my-8">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">FnK Cafe</h1>
+            <p class="mt-2 text-lg text-gray-500">#DidiKiDukaan</p>
+        </header>
+
+        <!-- Search and Filters -->
+        <div class="sticky top-0 bg-FDFDFB/80 backdrop-blur-sm py-4 z-10">
+            <div class="flex flex-col md:flex-row gap-4 mb-4">
+                <div class="relative flex-grow">
+                    <input type="text" id="search-bar" placeholder="Search for dishes..." class="w-full px-4 py-3 bg-white border border-gray-200 rounded-full text-lg search-bar transition-shadow duration-200">
+                    <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </div>
+                <div class="relative">
+                     <select id="sort-select" class="w-full md:w-auto px-4 py-3 bg-white border border-gray-200 rounded-full text-lg sort-select transition-shadow duration-200 appearance-none pr-10">
+                        <option value="default">Sort by...</option>
+                        <option value="popular">Popular</option>
+                        <option value="fastest">Fastest Cooked</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="price-asc">Price: Low to High</option>
+                    </select>
+                    <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+            <div class="flex justify-center space-x-2">
+                <button class="filter-btn active px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="all">All</button>
+                <button class="filter-btn px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="veg">Veg</button>
+                <button class="filter-btn px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="non-veg">Non-Veg</button>
+                <button id="feeling-lucky-btn" class="px-5 py-2 rounded-full font-medium bg-amber-400 hover:bg-amber-500 text-gray-900 transition-colors duration-200">Feeling Lucky ✨</button>
+            </div>
+        </div>
+
+        <!-- Menu Container -->
+        <main id="menu-container" class="mt-6">
+            <!-- Menu items will be injected here by JavaScript -->
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center mt-12 py-6 border-t border-gray-200">
+            <p class="text-gray-600">Shop no. 110, PEC Market, sector 12, Chandigarh</p>
+            <p class="text-gray-500 mt-1">+91-9988194463</p>
+        </footer>
+
+    </div>
+
+    <!-- "Feeling Lucky" Modal -->
+    <div id="lucky-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50 modal-overlay opacity-0 pointer-events-none">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center modal-content scale-95">
+            <h2 class="text-2xl font-bold text-gray-900 mb-2">You should try...</h2>
+            <div id="lucky-item-suggestion" class="my-6">
+                <!-- Suggestion will be injected here -->
+            </div>
+            <button id="close-modal-btn" class="w-full px-4 py-3 bg-gray-800 text-white rounded-full font-semibold hover:bg-gray-900 transition-colors">Sounds Good!</button>
+        </div>
+    </div>
+
+
+    <script>
+        const menuData = [
+            // Sandwiches
+            { name: "All Veggies Sandwich", price: 70, type: "veg", category: "Grilled Sandwiches", description: "Veggies, cheese, signature sauces and secret masala.", tags: ['Popular'] },
+            { name: "Pizza Sandwich", price: 90, type: "veg", category: "Grilled Sandwiches", description: "Delicious pizza flavours in a crispy sandwich." },
+            { name: "Egg Sandwich", price: 85, type: "egg", category: "Grilled Sandwiches", description: "2 eggs with signature sauces." },
+            { name: "Tandoori Tadka Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Paneer with delicious tandoori sauce." },
+            { name: "Tandoori Tadka Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Chicken with delicious tandoori sauce." },
+            { name: "Cheese n Corn Sandwich", price: 75, type: "veg", category: "Grilled Sandwiches", description: "Sweet American corn with signature cheese sauce.", tags: ['Fastest Cooked'] },
+            { name: "Silky Makhani Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Paneer with rich makhani sauce." },
+            { name: "Silky Makhani Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Chicken with rich makhani sauce.", tags: ['Popular'] },
+            { name: "Triple Cheese Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Loaded with three types of cheese." },
+            { name: "Triple Cheese Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Loaded with three types of cheese." },
+            { name: "Grilled Chicken Sandwich", price: 99, type: "non-veg", category: "Grilled Sandwiches", description: "Grilled chicken breast for our fitness buddies." },
+            { name: "Hungry Joey (Paneer)", price: 120, type: "veg", category: "Grilled Sandwiches", description: "Triple layer sandwich with triple goodness." },
+            { name: "Hungry Joey (Chicken)", price: 150, type: "non-veg", category: "Grilled Sandwiches", description: "Triple layer sandwich with triple goodness.", tags: ['Popular'] },
+            
+            // Burgers
+            { name: "Molten Cheese Burger", price: 65, type: "veg", category: "Burgers", description: "A classic burger with molten cheese." },
+            { name: "Classic FnK Veg Burger", price: 55, type: "veg", category: "Burgers", description: "", tags: ['Fastest Cooked']},
+            { name: "Classic FnK Paneer Burger", price: 60, type: "veg", category: "Burgers", description: "" },
+            { name: "Spicy Treat Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
+            { name: "Spicy Treat Paneer Burger", price: 65, type: "veg", category: "Burgers", description: "" },
+            { name: "Classic FnK Chicken Burger", price: 60, type: "non-veg", category: "Burgers", description: "" },
+            { name: "Spicy Treat Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
+            { name: "Tandoori / Makhani Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
+            { name: "Tandoori / Makhani Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
+            { name: "Achaari Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
+            { name: "Achaari Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
+            { name: "Boiled Chicken/Chicken Salami Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
+            { name: "DSA Veggie Burger", price: 65, type: "veg", category: "Burgers", description: "" },
+            { name: "Fried Chicken Burger (KFC)", price: 105, type: "non-veg", category: "Burgers", description: "Crispy fried chicken burger.", tags: ['Popular'] },
+            { name: "Big Bite Veg Burger", price: 100, type: "veg", category: "Burgers", description: "Extra large veg burger." },
+            { name: "Big Bite Chicken Burger", price: 120, type: "non-veg", category: "Burgers", description: "Extra large chicken burger." },
+            
+            // Combos
+            { name: "Veg Classic Burger + Masala Fries", price: 90, type: "veg", category: "Combos", description: ""},
+            { name: "2 Crispy Aloo Tikki Burgers", price: 90, type: "veg", category: "Combos", description: ""},
+            { name: "Plain Maggi + Hot Coffee", price: 70, type: "veg", category: "Combos", description: ""},
+            { name: "Momo + Spring Rolls", price: 110, type: "veg", category: "Combos", description: "Veg momo and veg spring rolls."},
+            { name: "Veg Momo + Paneer Momo", price: 110, type: "veg", category: "Combos", description: ""},
+            { name: "Baked Pasta + Plain Garlic Bread", price: 145, type: "veg", category: "Combos", description: "Your choice of baked pasta."},
+
+            // Fries
+            { name: "Plain Fries", price: 55, type: "veg", category: "Fries", description: "", tags: ['Fastest Cooked'] },
+            { name: "Masala Fries", price: 65, type: "veg", category: "Fries", description: "" },
+            { name: "Peri Peri Fries", price: 75, type: "veg", category: "Fries", description: "", tags: ['Popular'] },
+            { name: "Cheesy Loaded Fries", price: 90, type: "veg", category: "Fries", description: "" },
+            { name: "Triple Cheese Fries", price: 90, type: "veg", category: "Fries", description: "" },
+            { name: "Chilli Cheese Fries", price: 90, type: "veg", category: "Fries", description: "" },
+            { name: "Meta Fries", price: 90, type: "veg", category: "Fries", description: "" },
+            { name: "Paneer Pop Fries", price: 80, type: "veg", category: "Fries", description: "" },
+            { name: "Chicken & Cheese Fries", price: 99, type: "non-veg", category: "Fries", description: "" },
+
+            // Maggi
+            { name: "Plain Maggi", price: 50, type: "veg", category: "Maggi", description: "", tags: ['Fastest Cooked'] },
+            { name: "Vegetable Maggi", price: 50, type: "veg", category: "Maggi", description: "" },
+            { name: "Cheese Maggi", price: 65, type: "veg", category: "Maggi", description: "", tags: ['Popular'] },
+            { name: "Butter Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
+            { name: "Tandoori Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
+            { name: "Chilli Garlic Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
+            { name: "Peri Peri Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
+            { name: "Egg Maggi", price: 70, type: "egg", category: "Maggi", description: "" },
+            { name: "Chicken Maggi", price: 70, type: "non-veg", category: "Maggi", description: "" },
+            { name: "PMC Maggi", price: 80, type: "non-veg", category: "Maggi", description: "Paneer, Mushroom & Chicken Maggi" },
+
+            // Subs, Rolls, Wraps
+            { name: "Veggie Delight", price: 70, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Aloo Kebab", price: 75, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Tandoori Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Makhani Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Peri Peri Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Overloaded Cheesy Treat", price: 100, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Eggy Affair", price: 80, type: "egg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Chicken Tikka", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "", tags: ['Popular'] },
+            { name: "Peri Peri Chicken", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Makhani Chicken", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
+            { name: "Fried Chicken", price: 120, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
+            
+            // Pizza
+            { name: "Margherita Pizza", price: "89-240", basePrice: 89, type: "veg", category: "Pizza", description: "Just cheese. (Regular / Medium / Large)" },
+            { name: "Cheese N Corn Pizza", price: "89-249", basePrice: 89, type: "veg", category: "Pizza", description: "(Regular / Medium / Large)" },
+            { name: "Grilled Veggies Pizza", price: "99-289", basePrice: 99, type: "veg", category: "Pizza", description: "Onion, tomato, bell pepper, mushroom. (Regular / Medium / Large)" },
+            { name: "Tandoori Paneer Pizza", price: "109-329", basePrice: 109, type: "veg", category: "Pizza", description: "Marinated paneer with tandoori sauce. (Regular / Medium / Large)" },
+            { name: "Makhani Paneer Pizza", price: "109-329", basePrice: 109, type: "veg", category: "Pizza", description: "Marinated paneer with makhani sauce. (Regular / Medium / Large)" },
+            { name: "Shroom It Up Pizza", price: "119-369", basePrice: 119, type: "veg", category: "Pizza", description: "Mushroom, onion, corn and specialty sauces. (Regular / Medium / Large)"},
+            { name: "Olive You Pizza", price: "119-389", basePrice: 119, type: "veg", category: "Pizza", description: "Olives, corn, onion. (Regular / Medium / Large)"},
+            { name: "Three Peppers Pizza", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Jalapeno, red paprika, bell peppers. (Regular / Medium / Large)"},
+            { name: "Triple Cheese Pizza (Veg)", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Alfredo sauce, mozzarella, cottage cheese. (Regular / Medium / Large)"},
+            { name: "Chicken N Cheese Pizza", price: "109-299", basePrice: 109, type: "non-veg", category: "Pizza", description: "Just chicken and cheese. (Regular / Medium / Large)" },
+            { name: "Grilled Chicken Pizza", price: "109-299", basePrice: 109, type: "non-veg", category: "Pizza", description: "(Regular / Medium / Large)"},
+            { name: "Chicken Tikka Pizza", price: "129-319", basePrice: 129, type: "non-veg", category: "Pizza", description: "Masala chicken tikka. (Regular / Medium / Large)", tags: ['Popular'] },
+            { name: "Tandoori Chicken Pizza", price: "149-319", basePrice: 149, type: "non-veg", category: "Pizza", description: "Marinated chicken with tandoori sauce. (Regular / Medium / Large)" },
+            { name: "Makhani Chicken Pizza", price: "149-319", basePrice: 149, type: "non-veg", category: "Pizza", description: "Marinated chicken with makhani sauce. (Regular / Medium / Large)" },
+            { name: "Meat Lover's Pizza", price: "169-359", basePrice: 169, type: "non-veg", category: "Pizza", description: "Grilled chicken, chicken tikka, seekh. (Regular / Medium / Large)" },
+            { name: "Peri Peri Chicken Pizza", price: "169-369", basePrice: 169, type: "non-veg", category: "Pizza", description: "Marinated peri peri chicken with spicy sauces. (Regular / Medium / Large)"},
+            { name: "Three Cheese Chicken Pizza", price: "199-369", basePrice: 199, type: "non-veg", category: "Pizza", description: "Alfredo sauce, mozzarella, liquid cheddar, grilled chicken. (Regular / Medium / Large)"},
+            
+             // Garlic Breads
+            { name: "Plain Garlic Bread", price: 75, type: "veg", category: "Garlic Breads", description: ""},
+            { name: "Cheesy Garlic Bread", price: 95, type: "veg", category: "Garlic Breads", description: ""},
+            { name: "Tandoori Garlic Bread (Paneer)", price: 95, type: "veg", category: "Garlic Breads", description: ""},
+            { name: "Tandoori Garlic Bread (Chicken)", price: 105, type: "non-veg", category: "Garlic Breads", description: ""},
+            { name: "Stuffed Garlic Bread", price: 105, type: "veg", category: "Garlic Breads", description: ""},
+            
+            // Pasta
+            { name: "White Sauce Pasta (Veg)", price: 79, type: "veg", category: "Pasta", description: ""},
+            { name: "White Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
+            { name: "Red Sauce Pasta (Veg)", price: 79, type: "veg", category: "Pasta", description: ""},
+            { name: "Red Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
+            { name: "Mix Sauce Pasta (Veg)", price: 89, type: "veg", category: "Pasta", description: "", tags: ['Popular']},
+            { name: "Mix Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
+            
+            // Beverages
+            { name: "Iced Tea", price: 25, type: "veg", category: "Beverages", description: "", tags: ['Fastest Cooked'] },
+            { name: "Lemonade", price: 15, type: "veg", category: "Beverages", description: "", tags: ['Fastest Cooked'] },
+            { name: "Cold Coffee", price: 30, type: "veg", category: "Beverages", description: "", tags: ['Popular'] },
+            { name: "Oreo Shake", price: 40, type: "veg", category: "Beverages", description: "" },
+            { name: "Banana Shake", price: 30, type: "veg", category: "Beverages", description: "" },
+            
+            // Grilled Patty
+            { name: "Grilled Aloo Patty", price: 20, type: "veg", category: "Grilled Patty", description: ""},
+            { name: "Cheese N Corn Patty", price: 45, type: "veg", category: "Grilled Patty", description: ""},
+            { name: "Masala Veggies Patty", price: 55, type: "veg", category: "Grilled Patty", description: ""},
+            { name: "Extra Spicy Patty", price: 55, type: "veg", category: "Grilled Patty", description: ""},
+            { name: "Three Cheese Patty", price: 65, type: "veg", category: "Grilled Patty", description: ""},
+            { name: "Chicken Patty", price: 65, type: "non-veg", category: "Grilled Patty", description: ""},
+            
+            // Salads & Healthy
+            { name: "All Veggie Salad", price: 70, type: "veg", category: "Salads & Healthy", description: "Classic mix of fresh vegetables with signature dressing."},
+            { name: "Paneer Salad", price: 80, type: "veg", category: "Salads & Healthy", description: "Fresh vegetables with cottage cheese and dressing."},
+            { name: "Chicken Salad", price: 90, type: "non-veg", category: "Salads & Healthy", description: "Fresh vegetables with boiled chicken breast and dressing."},
+            { name: "Roasted Tofu", price: 45, type: "veg", category: "Salads & Healthy", description: ""},
+            { name: "Roasted Paneer", price: 55, type: "veg", category: "Salads & Healthy", description: ""},
+            { name: "Boiled Chicken Breast", price: 55, type: "non-veg", category: "Salads & Healthy", description: ""},
+            { name: "Baked Omlette", price: "95 | 110", basePrice: 95, type: "egg", category: "Salads & Healthy", description: ""},
+            { name: "Tawa Omlette with Brown Bread", price: 70, type: "egg", category: "Salads & Healthy", description: ""},
+        ];
+
+        const menuContainer = document.getElementById('menu-container');
+        const searchBar = document.getElementById('search-bar');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const sortSelect = document.getElementById('sort-select');
+        const luckyBtn = document.getElementById('feeling-lucky-btn');
+        const modal = document.getElementById('lucky-modal');
+        const modalContent = modal.querySelector('.modal-content');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const luckyItemSuggestion = document.getElementById('lucky-item-suggestion');
+
+
+        let currentFilter = 'all';
+        let currentSort = 'default';
+
+        const renderMenu = (items) => {
+            menuContainer.innerHTML = '';
+            if (items.length === 0) {
+                menuContainer.innerHTML = `<p class="text-center text-gray-500 py-10">No dishes found. Try a different search or filter.</p>`;
+                return;
+            }
+
+            const groupedItems = items.reduce((acc, item) => {
+                (acc[item.category] = acc[item.category] || []).push(item);
+                return acc;
+            }, {});
+
+            for (const category in groupedItems) {
+                const categoryTitle = document.createElement('h2');
+                categoryTitle.className = 'text-2xl font-bold text-gray-800 category-title';
+                categoryTitle.textContent = category;
+                menuContainer.appendChild(categoryTitle);
+                
+                groupedItems[category].forEach(item => {
+                    const typeClass = item.type === 'veg' ? 'veg-indicator' : (item.type === 'egg' ? 'egg-indicator' : 'non-veg-indicator');
+                    const priceValue = item.basePrice ?? (typeof item.price === 'number' ? item.price : 0);
+                    const priceText = typeof item.price === 'string' ? item.price.replace(/-/g, ' - ') : `₹${item.price}`;
+                    
+                    let tagsHTML = '';
+                    if (item.tags && item.tags.length > 0) {
+                        tagsHTML = `<div class="mt-2 flex flex-wrap gap-2">${item.tags.map(tag => {
+                            let colorClass = '';
+                            if (tag.toLowerCase() === 'popular') colorClass = 'bg-pink-100 text-pink-800';
+                            else if (tag.toLowerCase() === 'fastest cooked') colorClass = 'bg-sky-100 text-sky-800';
+                            else colorClass = 'bg-gray-100 text-gray-800';
+                            return `<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${colorClass}">${tag}</span>`;
+                        }).join('')}</div>`;
+                    }
+                    
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'flex justify-between items-start py-4';
+                    itemElement.innerHTML = `
+                        <div class="flex-1 pr-4">
+                            <h3 class="text-lg font-semibold ${typeClass}">${item.name}</h3>
+                            ${item.description ? `<p class="text-gray-600 text-sm mt-1">${item.description}</p>` : ''}
+                            ${tagsHTML}
+                        </div>
+                        <div class="text-lg font-semibold text-gray-800 whitespace-nowrap">${priceText}</div>
+                    `;
+                    menuContainer.appendChild(itemElement);
+                });
+            }
+        };
+
+        const getFilteredAndSortedItems = () => {
+            const searchTerm = searchBar.value.toLowerCase();
+            
+            let filteredItems = menuData.filter(item => {
+                const matchesSearch = item.name.toLowerCase().includes(searchTerm) || item.description.toLowerCase().includes(searchTerm);
+                const matchesFilter = currentFilter === 'all' || 
+                                      (currentFilter === 'veg' && item.type === 'veg') ||
+                                      (currentFilter === 'non-veg' && (item.type === 'non-veg' || item.type === 'egg'));
+                return matchesSearch && matchesFilter;
+            });
+
+            // Sorting logic
+            switch (currentSort) {
+                case 'popular':
+                    filteredItems.sort((a, b) => {
+                        const aIsPopular = a.tags?.includes('Popular') ? 1 : 0;
+                        const bIsPopular = b.tags?.includes('Popular') ? 1 : 0;
+                        return bIsPopular - aIsPopular;
+                    });
+                    break;
+                case 'fastest':
+                     filteredItems.sort((a, b) => {
+                        const aIsFastest = a.tags?.includes('Fastest Cooked') ? 1 : 0;
+                        const bIsFastest = b.tags?.includes('Fastest Cooked') ? 1 : 0;
+                        return bIsFastest - aIsFastest;
+                    });
+                    break;
+                case 'price-asc':
+                    filteredItems.sort((a, b) => {
+                         const priceA = a.basePrice ?? (typeof a.price === 'number' ? a.price : Infinity);
+                         const priceB = b.basePrice ?? (typeof b.price === 'number' ? b.price : Infinity);
+                         return priceA - priceB;
+                    });
+                    break;
+                case 'price-desc':
+                     filteredItems.sort((a, b) => {
+                         const priceA = a.basePrice ?? (typeof a.price === 'number' ? a.price : -1);
+                         const priceB = b.basePrice ?? (typeof b.price === 'number' ? b.price : -1);
+                         return priceB - priceA;
+                    });
+                    break;
+            }
+            return filteredItems;
+        };
+
+        const render = () => {
+            const itemsToRender = getFilteredAndSortedItems();
+            renderMenu(itemsToRender);
+        };
+        
+        searchBar.addEventListener('input', render);
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                render();
+            });
+        });
+
+        sortSelect.addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            render();
+        });
+
+        // Modal Logic
+        const showModal = (item) => {
+            const typeClass = item.type === 'veg' ? 'veg-indicator' : (item.type === 'egg' ? 'egg-indicator' : 'non-veg-indicator');
+            const priceText = typeof item.price === 'string' ? item.price.replace(/-/g, ' - ') : `₹${item.price}`;
+            luckyItemSuggestion.innerHTML = `
+                <div class="border-2 border-dashed border-amber-400 rounded-lg p-4">
+                    <h3 class="text-xl font-bold ${typeClass}">${item.name}</h3>
+                    <p class="text-gray-600 mt-1">${item.description || 'A delicious choice!'}</p>
+                    <div class="text-2xl font-bold text-gray-900 mt-4">${priceText}</div>
+                </div>
+            `;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+        };
+
+        const hideModal = () => {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            setTimeout(() => {
+                 modal.classList.add('pointer-events-none');
+            }, 300); // Wait for transition to finish
+        };
+
+        luckyBtn.addEventListener('click', () => {
+            const items = getFilteredAndSortedItems();
+            if (items.length > 0) {
+                const randomItem = items[Math.floor(Math.random() * items.length)];
+                showModal(randomItem);
+            } else {
+                showModal({name: "No items found!", description: "Try changing your filters."});
+            }
+        });
+
+        closeModalBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+
+
+        // Initial render
+        render();
+
+    </script>
+</body>
+</html>
