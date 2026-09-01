@@ -13,21 +13,21 @@
         }
         .veg-indicator::before {
             content: '●';
-            color: #22c55e; /* green-500 */
+            color: #22c55e;
             margin-right: 0.5rem;
             font-size: 1.25rem;
             vertical-align: middle;
         }
         .non-veg-indicator::before {
             content: '●';
-            color: #ef4444; /* red-500 */
+            color: #ef4444;
             margin-right: 0.5rem;
             font-size: 1.25rem;
             vertical-align: middle;
         }
         .egg-indicator::before {
             content: '●';
-            color: #f59e0b; /* amber-500 */
+            color: #f59e0b;
             margin-right: 0.5rem;
             font-size: 1.25rem;
             vertical-align: middle;
@@ -75,11 +75,18 @@
                 </div>
                 <div class="relative">
                      <select id="sort-select" class="w-full md:w-auto px-4 py-3 bg-white border border-gray-200 rounded-full text-lg sort-select transition-shadow duration-200 appearance-none pr-10">
-                        <option value="default">Sort by...</option>
-                        <option value="popular">Popular</option>
-                        <option value="fastest">Fastest Cooked</option>
-                        <option value="price-desc">Price: High to Low</option>
+                        <option value="default">Sort / Filter Category...</option>
+                        <option value="cat-pizza">Pizza</option>
+                        <option value="cat-burger">Burgers</option>
+                        <option value="cat-italian">Italian</option>
+                        <option value="cat-starters">Starters</option>
+                        <option value="cat-fries">French Fries</option>
+                        <option value="cat-grilled">Grilled Delights</option>
+                        <option value="cat-salads">Healthy Salad Bowls</option>
+                        <option value="cat-gym">Gym Menu</option>
+                        <option value="popular">Popular First</option>
                         <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
                     </select>
                     <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -248,7 +255,6 @@
         const closeModalBtn = document.getElementById('close-modal-btn');
         const luckyItemSuggestion = document.getElementById('lucky-item-suggestion');
 
-
         let currentFilter = 'all';
         let currentSort = 'default';
 
@@ -272,16 +278,13 @@
                 
                 groupedItems[category].forEach(item => {
                     const typeClass = item.type === 'veg' ? 'veg-indicator' : (item.type === 'egg' ? 'egg-indicator' : 'non-veg-indicator');
-                    const priceValue = item.basePrice ?? (typeof item.price === 'number' ? item.price : 0);
                     const priceText = typeof item.price === 'string' ? item.price.replace(/-/g, ' - ') : `₹${item.price}`;
                     
                     let tagsHTML = '';
                     if (item.tags && item.tags.length > 0) {
                         tagsHTML = `<div class="mt-2 flex flex-wrap gap-2">${item.tags.map(tag => {
-                            let colorClass = '';
+                            let colorClass = 'bg-gray-100 text-gray-800';
                             if (tag.toLowerCase() === 'popular') colorClass = 'bg-pink-100 text-pink-800';
-                            else if (tag.toLowerCase() === 'fastest cooked') colorClass = 'bg-sky-100 text-sky-800';
-                            else colorClass = 'bg-gray-100 text-gray-800';
                             return `<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${colorClass}">${tag}</span>`;
                         }).join('')}</div>`;
                     }
@@ -309,7 +312,25 @@
                 const matchesFilter = currentFilter === 'all' || 
                                       (currentFilter === 'veg' && item.type === 'veg') ||
                                       (currentFilter === 'non-veg' && (item.type === 'non-veg' || item.type === 'egg'));
-                return matchesSearch && matchesFilter;
+                
+                // Handle Category Select Filtering inside Sort Dropdown
+                let matchesCategory = true;
+                if (currentSort.startsWith('cat-')) {
+                    const catMap = {
+                        'cat-pizza': 'Pizza',
+                        'cat-burger': 'Burgers',
+                        'cat-italian': 'Italian',
+                        'cat-starters': 'Starters',
+                        'cat-fries': 'French Fries',
+                        'cat-grilled': 'Grilled Delights',
+                        'cat-salads': 'Healthy Salad Bowls',
+                        'cat-gym': 'Gym Menu'
+                    };
+                    const targetCategoryKey = currentSort.replace('cat-', '');
+                    matchesCategory = item.category.toLowerCase().includes(targetCategoryKey);
+                }
+
+                return matchesSearch && matchesFilter && matchesCategory;
             });
 
             // Sorting logic
@@ -319,13 +340,6 @@
                         const aIsPopular = a.tags?.includes('Popular') ? 1 : 0;
                         const bIsPopular = b.tags?.includes('Popular') ? 1 : 0;
                         return bIsPopular - aIsPopular;
-                    });
-                    break;
-                case 'fastest':
-                     filteredItems.sort((a, b) => {
-                        const aIsFastest = a.tags?.includes('Fastest Cooked') ? 1 : 0;
-                        const bIsFastest = b.tags?.includes('Fastest Cooked') ? 1 : 0;
-                        return bIsFastest - aIsFastest;
                     });
                     break;
                 case 'price-asc':
@@ -387,7 +401,7 @@
             modalContent.classList.add('scale-95');
             setTimeout(() => {
                  modal.classList.add('pointer-events-none');
-            }, 300); // Wait for transition to finish
+            }, 300);
         };
 
         luckyBtn.addEventListener('click', () => {
@@ -406,7 +420,6 @@
                 hideModal();
             }
         });
-
 
         // Initial render
         render();
