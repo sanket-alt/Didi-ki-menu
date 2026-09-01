@@ -61,11 +61,11 @@
         <!-- Header -->
         <header class="text-center my-8">
             <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-gray-900">FnK Cafe</h1>
-            <p class="mt-2 text-lg text-gray-500">#DidiKiDukaan</p>
+            <p class="mt-2 text-lg text-gray-500">Fresh. Grilled. Served.</p>
         </header>
 
         <!-- Search and Filters -->
-        <div class="sticky top-0 bg-FDFDFB/80 backdrop-blur-sm py-4 z-10">
+        <div class="sticky top-0 bg-[#FDFDFB]/90 backdrop-blur-sm py-4 z-10">
             <div class="flex flex-col md:flex-row gap-4 mb-4">
                 <div class="relative flex-grow">
                     <input type="text" id="search-bar" placeholder="Search for dishes..." class="w-full px-4 py-3 bg-white border border-gray-200 rounded-full text-lg search-bar transition-shadow duration-200">
@@ -86,11 +86,11 @@
                     </svg>
                 </div>
             </div>
-            <div class="flex justify-center space-x-2">
-                <button class="filter-btn active px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="all">All</button>
-                <button class="filter-btn px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="veg">Veg</button>
-                <button class="filter-btn px-5 py-2 rounded-full font-medium transition-colors duration-200" data-filter="non-veg">Non-Veg</button>
-                <button id="feeling-lucky-btn" class="px-5 py-2 rounded-full font-medium bg-amber-400 hover:bg-amber-500 text-gray-900 transition-colors duration-200">Feeling Lucky ✨</button>
+            <div class="flex flex-wrap justify-center gap-2">
+                <button class="filter-btn active px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 border border-gray-200" data-filter="all">All</button>
+                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 border border-gray-200" data-filter="veg">Veg</button>
+                <button class="filter-btn px-5 py-2 rounded-full text-sm font-medium transition-colors duration-200 border border-gray-200" data-filter="non-veg">Non-Veg</button>
+                <button id="feeling-lucky-btn" class="px-5 py-2 rounded-full text-sm font-medium bg-amber-400 hover:bg-amber-500 text-gray-900 transition-colors duration-200 shadow-sm border border-transparent">Feeling Lucky ✨</button>
             </div>
         </div>
 
@@ -101,8 +101,8 @@
 
         <!-- Footer -->
         <footer class="text-center mt-12 py-6 border-t border-gray-200">
-            <p class="text-gray-600">Shop no. 110, PEC Market, sector 12, Chandigarh</p>
-            <p class="text-gray-500 mt-1">+91-9988194463</p>
+            <p class="text-gray-600">FnK Cafe, Chandigarh</p>
+            <p class="text-gray-500 mt-1">Fresh Ingredients Daily</p>
         </footer>
 
     </div>
@@ -121,141 +121,121 @@
 
     <script>
         const menuData = [
-            // Sandwiches
-            { name: "All Veggies Sandwich", price: 70, type: "veg", category: "Grilled Sandwiches", description: "Veggies, cheese, signature sauces and secret masala.", tags: ['Popular'] },
-            { name: "Pizza Sandwich", price: 90, type: "veg", category: "Grilled Sandwiches", description: "Delicious pizza flavours in a crispy sandwich." },
-            { name: "Egg Sandwich", price: 85, type: "egg", category: "Grilled Sandwiches", description: "2 eggs with signature sauces." },
-            { name: "Tandoori Tadka Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Paneer with delicious tandoori sauce." },
-            { name: "Tandoori Tadka Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Chicken with delicious tandoori sauce." },
-            { name: "Cheese n Corn Sandwich", price: 75, type: "veg", category: "Grilled Sandwiches", description: "Sweet American corn with signature cheese sauce.", tags: ['Fastest Cooked'] },
-            { name: "Silky Makhani Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Paneer with rich makhani sauce." },
-            { name: "Silky Makhani Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Chicken with rich makhani sauce.", tags: ['Popular'] },
-            { name: "Triple Cheese Paneer Sandwich", price: 85, type: "veg", category: "Grilled Sandwiches", description: "Loaded with three types of cheese." },
-            { name: "Triple Cheese Chicken Sandwich", price: 95, type: "non-veg", category: "Grilled Sandwiches", description: "Loaded with three types of cheese." },
-            { name: "Grilled Chicken Sandwich", price: 99, type: "non-veg", category: "Grilled Sandwiches", description: "Grilled chicken breast for our fitness buddies." },
-            { name: "Hungry Joey (Paneer)", price: 120, type: "veg", category: "Grilled Sandwiches", description: "Triple layer sandwich with triple goodness." },
-            { name: "Hungry Joey (Chicken)", price: 150, type: "non-veg", category: "Grilled Sandwiches", description: "Triple layer sandwich with triple goodness.", tags: ['Popular'] },
-            
-            // Burgers
-            { name: "Molten Cheese Burger", price: 65, type: "veg", category: "Burgers", description: "A classic burger with molten cheese." },
-            { name: "Classic FnK Veg Burger", price: 55, type: "veg", category: "Burgers", description: "", tags: ['Fastest Cooked']},
-            { name: "Classic FnK Paneer Burger", price: 60, type: "veg", category: "Burgers", description: "" },
-            { name: "Spicy Treat Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
-            { name: "Spicy Treat Paneer Burger", price: 65, type: "veg", category: "Burgers", description: "" },
-            { name: "Classic FnK Chicken Burger", price: 60, type: "non-veg", category: "Burgers", description: "" },
-            { name: "Spicy Treat Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
-            { name: "Tandoori / Makhani Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
-            { name: "Tandoori / Makhani Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
-            { name: "Achaari Veg Burger", price: 60, type: "veg", category: "Burgers", description: "" },
-            { name: "Achaari Chicken Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
-            { name: "Boiled Chicken/Chicken Salami Burger", price: 65, type: "non-veg", category: "Burgers", description: "" },
-            { name: "DSA Veggie Burger", price: 65, type: "veg", category: "Burgers", description: "" },
-            { name: "Fried Chicken Burger (KFC)", price: 105, type: "non-veg", category: "Burgers", description: "Crispy fried chicken burger.", tags: ['Popular'] },
-            { name: "Big Bite Veg Burger", price: 100, type: "veg", category: "Burgers", description: "Extra large veg burger." },
-            { name: "Big Bite Chicken Burger", price: 120, type: "non-veg", category: "Burgers", description: "Extra large chicken burger." },
-            
-            // Combos
-            { name: "Veg Classic Burger + Masala Fries", price: 90, type: "veg", category: "Combos", description: ""},
-            { name: "2 Crispy Aloo Tikki Burgers", price: 90, type: "veg", category: "Combos", description: ""},
-            { name: "Plain Maggi + Hot Coffee", price: 70, type: "veg", category: "Combos", description: ""},
-            { name: "Momo + Spring Rolls", price: 110, type: "veg", category: "Combos", description: "Veg momo and veg spring rolls."},
-            { name: "Veg Momo + Paneer Momo", price: 110, type: "veg", category: "Combos", description: ""},
-            { name: "Baked Pasta + Plain Garlic Bread", price: 145, type: "veg", category: "Combos", description: "Your choice of baked pasta."},
-
-            // Fries
-            { name: "Plain Fries", price: 55, type: "veg", category: "Fries", description: "", tags: ['Fastest Cooked'] },
-            { name: "Masala Fries", price: 65, type: "veg", category: "Fries", description: "" },
-            { name: "Peri Peri Fries", price: 75, type: "veg", category: "Fries", description: "", tags: ['Popular'] },
-            { name: "Cheesy Loaded Fries", price: 90, type: "veg", category: "Fries", description: "" },
-            { name: "Triple Cheese Fries", price: 90, type: "veg", category: "Fries", description: "" },
-            { name: "Chilli Cheese Fries", price: 90, type: "veg", category: "Fries", description: "" },
-            { name: "Meta Fries", price: 90, type: "veg", category: "Fries", description: "" },
-            { name: "Paneer Pop Fries", price: 80, type: "veg", category: "Fries", description: "" },
-            { name: "Chicken & Cheese Fries", price: 99, type: "non-veg", category: "Fries", description: "" },
-
-            // Maggi
-            { name: "Plain Maggi", price: 50, type: "veg", category: "Maggi", description: "", tags: ['Fastest Cooked'] },
-            { name: "Vegetable Maggi", price: 50, type: "veg", category: "Maggi", description: "" },
-            { name: "Cheese Maggi", price: 65, type: "veg", category: "Maggi", description: "", tags: ['Popular'] },
-            { name: "Butter Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
-            { name: "Tandoori Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
-            { name: "Chilli Garlic Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
-            { name: "Peri Peri Maggi", price: 60, type: "veg", category: "Maggi", description: "" },
-            { name: "Egg Maggi", price: 70, type: "egg", category: "Maggi", description: "" },
-            { name: "Chicken Maggi", price: 70, type: "non-veg", category: "Maggi", description: "" },
-            { name: "PMC Maggi", price: 80, type: "non-veg", category: "Maggi", description: "Paneer, Mushroom & Chicken Maggi" },
-
-            // Subs, Rolls, Wraps
-            { name: "Veggie Delight", price: 70, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Aloo Kebab", price: 75, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Tandoori Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Makhani Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Peri Peri Paneer", price: 90, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Overloaded Cheesy Treat", price: 100, type: "veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Eggy Affair", price: 80, type: "egg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Chicken Tikka", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "", tags: ['Popular'] },
-            { name: "Peri Peri Chicken", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Makhani Chicken", price: 99, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
-            { name: "Fried Chicken", price: 120, type: "non-veg", category: "Subs, Rolls & Wraps", description: "" },
-            
-            // Pizza
+            // Pizzas 
             { name: "Margherita Pizza", price: "89-240", basePrice: 89, type: "veg", category: "Pizza", description: "Just cheese. (Regular / Medium / Large)" },
             { name: "Cheese N Corn Pizza", price: "89-249", basePrice: 89, type: "veg", category: "Pizza", description: "(Regular / Medium / Large)" },
             { name: "Grilled Veggies Pizza", price: "99-289", basePrice: 99, type: "veg", category: "Pizza", description: "Onion, tomato, bell pepper, mushroom. (Regular / Medium / Large)" },
             { name: "Tandoori Paneer Pizza", price: "109-329", basePrice: 109, type: "veg", category: "Pizza", description: "Marinated paneer with tandoori sauce. (Regular / Medium / Large)" },
             { name: "Makhani Paneer Pizza", price: "109-329", basePrice: 109, type: "veg", category: "Pizza", description: "Marinated paneer with makhani sauce. (Regular / Medium / Large)" },
-            { name: "Shroom It Up Pizza", price: "119-369", basePrice: 119, type: "veg", category: "Pizza", description: "Mushroom, onion, corn and specialty sauces. (Regular / Medium / Large)"},
-            { name: "Olive You Pizza", price: "119-389", basePrice: 119, type: "veg", category: "Pizza", description: "Olives, corn, onion. (Regular / Medium / Large)"},
-            { name: "Three Peppers Pizza", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Jalapeno, red paprika, bell peppers. (Regular / Medium / Large)"},
-            { name: "Triple Cheese Pizza (Veg)", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Alfredo sauce, mozzarella, cottage cheese. (Regular / Medium / Large)"},
+            { name: "Shroom It Up Pizza", price: "119-369", basePrice: 119, type: "veg", category: "Pizza", description: "Mushroom, onion, corn and specialty sauces. (Regular / Medium / Large)" },
+            { name: "Olive You Pizza", price: "119-389", basePrice: 119, type: "veg", category: "Pizza", description: "Olives, corn, onion. (Regular / Medium / Large)" },
+            { name: "Three Peppers Pizza", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Jalapeno, red paprika, bell peppers. (Regular / Medium / Large)" },
+            { name: "Triple Cheese Pizza (Veg)", price: "199-389", basePrice: 199, type: "veg", category: "Pizza", description: "Alfredo sauce, mozzarella, cottage cheese. (Regular / Medium / Large)" },
             { name: "Chicken N Cheese Pizza", price: "109-299", basePrice: 109, type: "non-veg", category: "Pizza", description: "Just chicken and cheese. (Regular / Medium / Large)" },
-            { name: "Grilled Chicken Pizza", price: "109-299", basePrice: 109, type: "non-veg", category: "Pizza", description: "(Regular / Medium / Large)"},
-            { name: "Chicken Tikka Pizza", price: "129-319", basePrice: 129, type: "non-veg", category: "Pizza", description: "Masala chicken tikka. (Regular / Medium / Large)", tags: ['Popular'] },
+            { name: "Grilled Chicken Pizza", price: "109-299", basePrice: 109, type: "non-veg", category: "Pizza", description: "(Regular / Medium / Large)" },
+            { name: "Chicken Tikka Pizza", price: "129-319", basePrice: 129, type: "non-veg", category: "Pizza", description: "Masala chicken tikka. (Regular / Medium / Large)" },
             { name: "Tandoori Chicken Pizza", price: "149-319", basePrice: 149, type: "non-veg", category: "Pizza", description: "Marinated chicken with tandoori sauce. (Regular / Medium / Large)" },
             { name: "Makhani Chicken Pizza", price: "149-319", basePrice: 149, type: "non-veg", category: "Pizza", description: "Marinated chicken with makhani sauce. (Regular / Medium / Large)" },
             { name: "Meat Lover's Pizza", price: "169-359", basePrice: 169, type: "non-veg", category: "Pizza", description: "Grilled chicken, chicken tikka, seekh. (Regular / Medium / Large)" },
-            { name: "Peri Peri Chicken Pizza", price: "169-369", basePrice: 169, type: "non-veg", category: "Pizza", description: "Marinated peri peri chicken with spicy sauces. (Regular / Medium / Large)"},
-            { name: "Three Cheese Chicken Pizza", price: "199-369", basePrice: 199, type: "non-veg", category: "Pizza", description: "Alfredo sauce, mozzarella, liquid cheddar, grilled chicken. (Regular / Medium / Large)"},
-            
-             // Garlic Breads
-            { name: "Plain Garlic Bread", price: 75, type: "veg", category: "Garlic Breads", description: ""},
-            { name: "Cheesy Garlic Bread", price: 95, type: "veg", category: "Garlic Breads", description: ""},
-            { name: "Tandoori Garlic Bread (Paneer)", price: 95, type: "veg", category: "Garlic Breads", description: ""},
-            { name: "Tandoori Garlic Bread (Chicken)", price: 105, type: "non-veg", category: "Garlic Breads", description: ""},
-            { name: "Stuffed Garlic Bread", price: 105, type: "veg", category: "Garlic Breads", description: ""},
-            
-            // Pasta
-            { name: "White Sauce Pasta (Veg)", price: 79, type: "veg", category: "Pasta", description: ""},
-            { name: "White Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
-            { name: "Red Sauce Pasta (Veg)", price: 79, type: "veg", category: "Pasta", description: ""},
-            { name: "Red Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
-            { name: "Mix Sauce Pasta (Veg)", price: 89, type: "veg", category: "Pasta", description: "", tags: ['Popular']},
-            { name: "Mix Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Pasta", description: ""},
-            
-            // Beverages
-            { name: "Iced Tea", price: 25, type: "veg", category: "Beverages", description: "", tags: ['Fastest Cooked'] },
-            { name: "Lemonade", price: 15, type: "veg", category: "Beverages", description: "", tags: ['Fastest Cooked'] },
-            { name: "Cold Coffee", price: 30, type: "veg", category: "Beverages", description: "", tags: ['Popular'] },
-            { name: "Oreo Shake", price: 40, type: "veg", category: "Beverages", description: "" },
-            { name: "Banana Shake", price: 30, type: "veg", category: "Beverages", description: "" },
-            
-            // Grilled Patty
-            { name: "Grilled Aloo Patty", price: 20, type: "veg", category: "Grilled Patty", description: ""},
-            { name: "Cheese N Corn Patty", price: 45, type: "veg", category: "Grilled Patty", description: ""},
-            { name: "Masala Veggies Patty", price: 55, type: "veg", category: "Grilled Patty", description: ""},
-            { name: "Extra Spicy Patty", price: 55, type: "veg", category: "Grilled Patty", description: ""},
-            { name: "Three Cheese Patty", price: 65, type: "veg", category: "Grilled Patty", description: ""},
-            { name: "Chicken Patty", price: 65, type: "non-veg", category: "Grilled Patty", description: ""},
-            
-            // Salads & Healthy
-            { name: "All Veggie Salad", price: 70, type: "veg", category: "Salads & Healthy", description: "Classic mix of fresh vegetables with signature dressing."},
-            { name: "Paneer Salad", price: 80, type: "veg", category: "Salads & Healthy", description: "Fresh vegetables with cottage cheese and dressing."},
-            { name: "Chicken Salad", price: 90, type: "non-veg", category: "Salads & Healthy", description: "Fresh vegetables with boiled chicken breast and dressing."},
-            { name: "Roasted Tofu", price: 45, type: "veg", category: "Salads & Healthy", description: ""},
-            { name: "Roasted Paneer", price: 55, type: "veg", category: "Salads & Healthy", description: ""},
-            { name: "Boiled Chicken Breast", price: 55, type: "non-veg", category: "Salads & Healthy", description: ""},
-            { name: "Baked Omlette", price: "95 | 110", basePrice: 95, type: "egg", category: "Salads & Healthy", description: ""},
-            { name: "Tawa Omlette with Brown Bread", price: 70, type: "egg", category: "Salads & Healthy", description: ""},
+            { name: "Peri Peri Chicken Pizza", price: "169-369", basePrice: 169, type: "non-veg", category: "Pizza", description: "Marinated peri peri chicken with spicy sauces. (Regular / Medium / Large)" },
+            { name: "Three Cheese Chicken Pizza", price: "199-369", basePrice: 199, type: "non-veg", category: "Pizza", description: "Alfredo sauce, mozzarella, liquid cheddar, grilled chicken. (Regular / Medium / Large)" },
+
+            // Burgers
+            { name: "Spicy Treat Veg", price: 60, type: "veg", category: "Burgers - Premium", description: "" },
+            { name: "Spicy Treat Chicken", price: 65, type: "non-veg", category: "Burgers - Premium", description: "" },
+            { name: "Tandoori Veg", price: 60, type: "veg", category: "Burgers - Premium", description: "" },
+            { name: "Tandoori Chicken/Paneer", price: 65, type: "non-veg", category: "Burgers - Premium", description: "" },
+            { name: "Molten Cheese", price: 65, type: "veg", category: "Burgers - Premium", description: "", tags: ['Popular'] },
+            { name: "Makhani Veg", price: 60, type: "veg", category: "Burgers - Premium", description: "" },
+            { name: "Makhani Chicken/Paneer", price: 65, type: "non-veg", category: "Burgers - Premium", description: "" },
+            { name: "Spicy Chicken", price: 65, type: "non-veg", category: "Burgers - Premium", description: "" },
+            { name: "KFC style Chicken", price: 110, type: "non-veg", category: "Burgers - Signature", description: "", tags: ['Popular'] },
+            { name: "KFC style VEG", price: 80, type: "veg", category: "Burgers - Signature", description: "" },
+            { name: "Hi Protein Burger", price: 70, type: "veg", category: "Burgers - Signature", description: "High protein build." },
+            { name: "Beans and Cheese", price: 65, type: "veg", category: "Burgers - Signature", description: "" },
+            { name: "Spicy Chaap", price: 60, type: "veg", category: "Burgers - Signature", description: "" },
+            { name: "Creamy Chaap", price: 60, type: "veg", category: "Burgers - Signature", description: "" },
+            { name: "Classic FnK Veg", price: 55, type: "veg", category: "Burgers - Classic", description: "", tags: ['Popular'] },
+            { name: "Classic Chicken", price: 65, type: "non-veg", category: "Burgers - Classic", description: "" },
+            { name: "Classic Paneer", price: 60, type: "veg", category: "Burgers - Classic", description: "" },
+            { name: "Jr. Burger", price: 45, type: "veg", category: "Burgers - Classic", description: "" },
+
+            // Italian (Pasta & Breads)
+            { name: "White Sauce Pasta (Veg)", price: 80, type: "veg", category: "Italian", description: "" },
+            { name: "White Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Italian", description: "" },
+            { name: "Red Sauce Pasta (Veg)", price: 80, type: "veg", category: "Italian", description: "" },
+            { name: "Red Sauce Pasta (Chicken)", price: 99, type: "non-veg", category: "Italian", description: "" },
+            { name: "Mix Sauce Pasta (Veg)", price: 99, type: "veg", category: "Italian", description: "" },
+            { name: "Mix Sauce Pasta (Chicken)", price: 109, type: "non-veg", category: "Italian", description: "" },
+            { name: "Penne Aglio Olio (Veg)", price: 99, type: "veg", category: "Italian", description: "" },
+            { name: "Penne Aglio Olio (Chicken)", price: 109, type: "non-veg", category: "Italian", description: "" },
+            { name: "Garlic Butter Bread", price: 80, type: "veg", category: "Italian", description: "" },
+            { name: "Cheesy Garlic Bread", price: 90, type: "veg", category: "Italian", description: "" },
+            { name: "Tandoori Paneer Garlic Bread", price: 99, type: "veg", category: "Italian", description: "" },
+            { name: "Tandoori Chicken Garlic Bread", price: 99, type: "non-veg", category: "Italian", description: "" },
+            { name: "Combo: Small Pizza + Cheesy Garlic Bread", price: 110, type: "veg", category: "Italian", description: "" },
+            { name: "Combo: Baked Pasta + Plain Garlic Bread", price: 110, type: "veg", category: "Italian", description: "" },
+
+            // Starters 
+            { name: "Spring Rolls", price: 75, type: "veg", category: "Starters", description: "" },
+            { name: "Kurkure Spring Rolls", price: 90, type: "veg", category: "Starters", description: "" },
+            { name: "Cheese n Corn Rolls", price: 90, type: "veg", category: "Starters", description: "" },
+            { name: "Chicken Spring Rolls", price: 100, type: "non-veg", category: "Starters", description: "" },
+            { name: "Kurkuri Soya Chaap", price: 80, type: "veg", category: "Starters", description: "" },
+            { name: "Steamed Momo", price: 75, type: "veg", category: "Starters", description: "" },
+            { name: "Fried Momo", price: 80, type: "veg", category: "Starters", description: "" },
+            { name: "Tandoori Momo", price: 90, type: "veg", category: "Starters", description: "" },
+            { name: "Kurkure Momo", price: 90, type: "veg", category: "Starters", description: "" },
+            { name: "Afghani Momo", price: 90, type: "veg", category: "Starters", description: "" },
+            { name: "Steamed Chicken", price: 60, type: "non-veg", category: "Starters", description: "" },
+            { name: "Fried Chicken (KFC)", price: 120, type: "non-veg", category: "Starters", description: "" },
+            { name: "Chicken Seekh", price: 99, type: "non-veg", category: "Starters", description: "" },
+            { name: "Chicken Nuggets", price: 99, type: "non-veg", category: "Starters", description: "" },
+            { name: "Chicken Tikka", price: 90, type: "non-veg", category: "Starters", description: "" },
+            { name: "Chicken Platter", price: 110, type: "non-veg", category: "Starters", description: "" },
+            { name: "Chilli Potato", price: 80, type: "veg", category: "Starters", description: "" },
+            { name: "Honey Chilli Potato", price: 80, type: "veg", category: "Starters", description: "" },
+            { name: "Chilli Paneer", price: 110, type: "veg", category: "Starters", description: "" },
+            { name: "Chilli Chicken", price: 120, type: "non-veg", category: "Starters", description: "" },
+            { name: "Honey Chilli Chicken", price: 120, type: "non-veg", category: "Starters", description: "" },
+
+            // French Fries
+            { name: "Masala Fries", price: 65, type: "veg", category: "French Fries", description: "" },
+            { name: "Peri Peri Fries", price: 75, type: "veg", category: "French Fries", description: "" },
+            { name: "Cream n Onion Fries", price: 65, type: "veg", category: "French Fries", description: "" },
+            { name: "Cheesy Sprinkle Fries", price: 75, type: "veg", category: "French Fries", description: "" },
+            { name: "Cheesy Loaded Fries", price: 90, type: "veg", category: "French Fries", description: "" },
+            { name: "Garlic Fries", price: 75, type: "veg", category: "French Fries", description: "" },
+            { name: "Chicken n Cheese Fries", price: 99, type: "non-veg", category: "French Fries", description: "" },
+            { name: "Half n Half", price: 80, type: "veg", category: "French Fries", description: "" },
+            { name: "Garlic n Cheese Fries", price: 90, type: "veg", category: "French Fries", description: "" },
+
+            // Grilled Delights
+            { name: "Paneer Tikka", price: 110, type: "veg", category: "Grilled Delights", description: "Tandoor-grilled paneer with smoky flavors and a spicy marinade." },
+            { name: "Chicken Tikka", price: 150, type: "non-veg", category: "Grilled Delights", description: "Juicy chicken tikka, marinated overnight and grilled to perfection." },
+            { name: "Afghani Soya Chaap", price: 110, type: "veg", category: "Grilled Delights", description: "Creamy Afghani-style soya chaap with subtle spices and a rich, smoky finish." },
+
+            // Salads
+            { name: "Garden Fresh Salad", price: 60, type: "veg", category: "Healthy Salad Bowls", description: "Choose between fruits or veggies." },
+            { name: "Grilled Paneer Salad", price: 80, type: "veg", category: "Healthy Salad Bowls", description: "Choose fruits, veggies, and whole grains." },
+            { name: "Chatpata Microgreens Salad", price: 80, type: "veg", category: "Healthy Salad Bowls", description: "Chatpata masala in fresh veggies and microgreens." },
+            { name: "Creamy Chicken Salad", price: 80, type: "non-veg", category: "Healthy Salad Bowls", description: "Grilled Chicken, veggies." },
+            { name: "Protein Salad", price: "60-80", basePrice: 60, type: "veg", category: "Healthy Salad Bowls", description: "Add protein, carbs, and healthy fats daily." },
+
+            // Gym Menu
+            { name: "Roasted Tofu", price: 40, type: "veg", category: "Gym Menu - Vegetarian", description: "" },
+            { name: "Roasted Paneer", price: 55, type: "veg", category: "Gym Menu - Vegetarian", description: "" },
+            { name: "Tofu Salad", price: 80, type: "veg", category: "Gym Menu - Vegetarian", description: "" },
+            { name: "Paneer Bhurji", price: 80, type: "veg", category: "Gym Menu - Vegetarian", description: "" },
+            { name: "Tofu Bhurji", price: 70, type: "veg", category: "Gym Menu - Vegetarian", description: "" },
+            { name: "PB Shake", price: 60, type: "veg", category: "Gym Menu - Drinks", description: "" },
+            { name: "Banana Shake", price: 40, type: "veg", category: "Gym Menu - Drinks", description: "" },
+            { name: "Protein Shake", price: 100, type: "veg", category: "Gym Menu - Drinks", description: "" },
+            { name: "PB, Banana & Date Shake", price: 80, type: "veg", category: "Gym Menu - Drinks", description: "" },
+            { name: "Boiled Chicken (120g)", price: 60, type: "non-veg", category: "Gym Menu - Non Vegetarian", description: "" },
+            { name: "Baked Chicken Seekh", price: 99, type: "non-veg", category: "Gym Menu - Non Vegetarian", description: "" },
+            { name: "3 Egg Omlette", price: 60, type: "egg", category: "Gym Menu - Non Vegetarian", description: "" },
+            { name: "Anda Bhurji", price: 70, type: "egg", category: "Gym Menu - Non Vegetarian", description: "" },
         ];
 
         const menuContainer = document.getElementById('menu-container');
